@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block title %}Menu — Osteria Lumina{% endblock %}
+
+{% block head %}
+<style>
+    .page-hero {
+        padding: 5rem 5vw 3rem;
+        text-align: center;
+        background: linear-gradient(180deg, rgba(201,169,110,0.06) 0%, transparent 100%);
+        border-bottom: 1px solid var(--border);
+    }
+    .page-hero .divider { margin: 1.2rem auto; }
+    .page-hero p { color: var(--muted); max-width: 480px; margin: 0 auto; font-size: 0.9rem; }
+
+    .menu-nav {
+        display: flex; justify-content: center; gap: 0;
+        padding: 0 5vw;
+        border-bottom: 1px solid var(--border);
+        overflow-x: auto;
+    }
+    .menu-nav-btn {
+        background: none; border: none;
+        color: var(--muted);
+        font-family: var(--ff-sans);
+        font-size: 0.72rem; letter-spacing: 0.2em;
+        text-transform: uppercase;
+        padding: 1.2rem 2rem;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        transition: all 0.3s;
+        white-space: nowrap;
+    }
+    .menu-nav-btn:hover { color: var(--cream); }
+    .menu-nav-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+    .menu-sections { max-width: 900px; margin: 0 auto; padding: 4rem 5vw 6rem; }
+
+    .menu-section { display: none; animation: fadeIn 0.4s ease; }
+    .menu-section.active { display: block; }
+
+    .menu-section-title {
+        font-family: var(--ff-serif);
+        font-size: 2.5rem; font-weight: 300;
+        color: var(--cream); margin-bottom: 0.5rem;
+    }
+    .menu-section-title em { font-style: italic; color: var(--gold); }
+    .menu-section-sub { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 3rem; }
+
+    .menu-item {
+        display: flex; justify-content: space-between; align-items: start;
+        padding: 1.8rem 0;
+        border-bottom: 1px solid rgba(201,169,110,0.12);
+        gap: 2rem;
+        transition: background 0.3s;
+    }
+    .menu-item:last-child { border-bottom: none; }
+    .menu-item:hover { background: rgba(201,169,110,0.03); margin: 0 -1rem; padding: 1.8rem 1rem; }
+    .item-info h3 {
+        font-family: var(--ff-serif); font-size: 1.25rem;
+        font-weight: 400; color: var(--cream); margin-bottom: 0.35rem;
+    }
+    .item-info p { font-size: 0.82rem; color: var(--muted); max-width: 480px; line-height: 1.65; }
+    .item-price {
+        font-family: var(--ff-serif); font-size: 1.2rem;
+        color: var(--gold); white-space: nowrap; padding-top: 0.1rem;
+    }
+    .item-dots {
+        flex: 1; border-bottom: 1px dotted rgba(201,169,110,0.2);
+        margin: 0.9rem 1rem 0; min-width: 20px;
+    }
+
+    .menu-note {
+        margin-top: 4rem;
+        padding: 2rem;
+        border: 1px solid var(--border);
+        text-align: center;
+        font-family: var(--ff-serif);
+        font-size: 0.95rem;
+        color: var(--muted);
+        font-style: italic;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+    <p class="section-eyebrow">Seasonal Italian</p>
+    <h1 class="section-title">Our <em>Menu</em></h1>
+    <div class="divider"></div>
+    <p>Our menu changes with the seasons, guided by what's finest at market. All pasta is made fresh daily in our kitchen.</p>
+</div>
+
+<nav class="menu-nav">
+    {% for category in menu.keys() %}
+    <button class="menu-nav-btn {% if loop.first %}active{% endif %}" onclick="showSection('{{ category }}', this)">
+        {{ category }}
+    </button>
+    {% endfor %}
+</nav>
+
+<div class="menu-sections">
+    {% for category, items in menu.items() %}
+    <div class="menu-section {% if loop.first %}active{% endif %}" id="section-{{ category }}">
+        <h2 class="menu-section-title">{{ category.split()[0] }} <em>{% if category.split()|length > 1 %}{{ category.split()[1:] | join(' ') }}{% endif %}</em></h2>
+        <p class="menu-section-sub">✦ &nbsp; Seasonal selection &nbsp; ✦</p>
+        {% for item in items %}
+        <div class="menu-item">
+            <div class="item-info">
+                <h3>{{ item.name }}</h3>
+                <p>{{ item.desc }}</p>
+            </div>
+            <div class="item-dots"></div>
+            <div class="item-price">£{{ item.price }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+    <div class="menu-note">
+        A discretionary 12.5% service charge will be added to your bill.<br>
+        Please inform us of any allergies or dietary requirements.
+    </div>
+</div>
+
+<script>
+function showSection(name, btn) {
+    document.querySelectorAll('.menu-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.menu-nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('section-' + name).classList.add('active');
+    btn.classList.add('active');
+}
+</script>
+{% endblock %}

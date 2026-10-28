@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Osteria Lumina{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --cream: #f5f0e8;
+            --warm-white: #faf8f4;
+            --charcoal: #1a1814;
+            --dark: #2c2820;
+            --gold: #c9a96e;
+            --gold-light: #e8d5a3;
+            --rust: #8b4513;
+            --muted: #8a8278;
+            --border: rgba(201,169,110,0.25);
+            --ff-serif: 'Cormorant Garamond', Georgia, serif;
+            --ff-sans: 'Jost', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--charcoal);
+            color: var(--cream);
+            font-family: var(--ff-sans);
+            font-weight: 300;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1.5rem 3rem;
+            background: rgba(26,24,20,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            transition: padding 0.3s;
+        }
+        .nav-logo {
+            font-family: var(--ff-serif);
+            font-size: 1.6rem;
+            font-weight: 300;
+            letter-spacing: 0.12em;
+            color: var(--gold);
+            text-decoration: none;
+        }
+        .nav-logo span { font-style: italic; }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a {
+            color: var(--cream);
+            text-decoration: none;
+            font-size: 0.78rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            opacity: 0.8;
+            transition: opacity 0.2s, color 0.2s;
+        }
+        .nav-links a:hover, .nav-links a.active { opacity: 1; color: var(--gold); }
+        .nav-reserve {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 0.6rem 1.5rem;
+            font-family: var(--ff-sans);
+            font-size: 0.72rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .nav-reserve:hover { background: var(--gold); color: var(--charcoal); }
+
+        /* ── PAGE WRAPPER ── */
+        main { padding-top: 5rem; min-height: 100vh; }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--dark);
+            border-top: 1px solid var(--border);
+            padding: 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+            font-size: 0.82rem;
+            color: var(--muted);
+        }
+        footer h4 {
+            font-family: var(--ff-serif);
+            font-size: 1rem;
+            color: var(--gold);
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.08em;
+        }
+        footer p { line-height: 1.9; }
+        .footer-copy {
+            grid-column: 1/-1;
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+        }
+
+        /* ── FLASH ── */
+        .flash-success {
+            background: rgba(201,169,110,0.12);
+            border: 1px solid var(--gold);
+            color: var(--gold-light);
+            padding: 1rem 1.5rem;
+            margin: 2rem auto;
+            max-width: 600px;
+            text-align: center;
+            font-family: var(--ff-serif);
+            font-size: 1.1rem;
+            letter-spacing: 0.04em;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+
+        /* ── BUTTONS ── */
+        .btn-gold {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--charcoal);
+            border: none;
+            padding: 0.9rem 2.5rem;
+            font-family: var(--ff-sans);
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        .btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
+        .btn-outline {
+            display: inline-block;
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 0.9rem 2.5rem;
+            font-family: var(--ff-sans);
+            font-size: 0.78rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        .btn-outline:hover { background: var(--gold); color: var(--charcoal); }
+
+        /* ── SECTION HEADER ── */
+        .section-eyebrow {
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.8rem;
+        }
+        .section-title {
+            font-family: var(--ff-serif);
+            font-size: clamp(2.2rem, 4vw, 3.5rem);
+            font-weight: 300;
+            line-height: 1.2;
+            color: var(--cream);
+        }
+        .section-title em { font-style: italic; color: var(--gold); }
+        .divider {
+            width: 60px; height: 1px;
+            background: var(--gold);
+            margin: 1.5rem 0;
+        }
+
+        /* ── FORM STYLES ── */
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label {
+            display: block;
+            font-size: 0.72rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 0.5rem;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            color: var(--cream);
+            padding: 0.9rem 1rem;
+            font-family: var(--ff-sans);
+            font-size: 0.9rem;
+            font-weight: 300;
+            transition: border-color 0.3s;
+            outline: none;
+            appearance: none;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus { border-color: var(--gold); }
+        .form-group select option { background: var(--dark); }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } nav { padding: 1rem 1.5rem; } .nav-links { display: none; } footer { grid-template-columns: 1fr; } }
+    </style>
+    {% block head %}{% endblock %}
+</head>
+<body>
+
+<nav>
+    <a href="/" class="nav-logo"><span>Osteria</span> Lumina</a>
+    <ul class="nav-links">
+        <li><a href="/" class="{% if request.endpoint == 'index' %}active{% endif %}">Home</a></li>
+        <li><a href="/menu" class="{% if request.endpoint == 'menu' %}active{% endif %}">Menu</a></li>
+        <li><a href="/reservations" class="{% if request.endpoint == 'reserve' %}active{% endif %}">Reservations</a></li>
+        <li><a href="/contact" class="{% if request.endpoint == 'contact' %}active{% endif %}">Contact</a></li>
+    </ul>
+    <a href="/reservations" class="nav-reserve">Book a Table</a>
+</nav>
+
+<main>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-success">✦ {{ messages[0] == 'success' and 'Your request has been received. We\'ll be in touch shortly.' or messages[0] }}</div>
+        {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</main>
+
+<footer>
+    <div>
+        <h4>Osteria Lumina</h4>
+        <p>A celebration of Italian tradition<br>reimagined for the modern table.<br>Open Tuesday – Sunday.</p>
+    </div>
+    <div>
+        <h4>Hours</h4>
+        <p>
+            Lunch: 12:00 – 15:00<br>
+            Dinner: 18:30 – 22:30<br>
+            Bar: from 18:00
+        </p>
+    </div>
+    <div>
+        <h4>Find Us</h4>
+        <p>
+            42 Via della Seta<br>
+            Florence Quarter<br>
+            +91 98765 43210
+        </p>
+    </div>
+    <div class="footer-copy">
+        © 2024 Osteria Lumina · All rights reserved
+    </div>
+</footer>
+
+</body>
+</html>
